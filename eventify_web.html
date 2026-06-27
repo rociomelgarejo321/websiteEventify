@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Eventify · Tu evento, sin complicaciones.</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ev-navy:#212541;
+  --ev-blue:#6669f4;
+  --ev-violet:#aa9df8;
+  --ev-lilac:#c6c6e8;
+  --ev-white:#ffffff;
+  --ev-bg:#f4f3ff;
+  --ev-text:#212541;
+}
+body{font-family:'DM Sans',sans-serif;color:var(--ev-text);background:var(--ev-white);}
+
+/* NAV */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 2rem;background:rgba(255,255,255,0.97);
+  border-bottom:1px solid var(--ev-lilac);position:sticky;top:0;z-index:100;
+}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.logo-sym{width:34px;height:34px;background:var(--ev-blue);border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.logo-text{font-size:19px;font-weight:700;color:var(--ev-navy);letter-spacing:-.3px;}
+.logo-text span{color:var(--ev-blue);}
+.nav-links{display:flex;gap:1.5rem;align-items:center;}
+.nav-links a{font-size:13px;color:#555;cursor:pointer;text-decoration:none;font-weight:500;}
+.nav-links a:hover{color:var(--ev-blue);}
+.btn-nav{background:var(--ev-navy);color:white;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-nav:hover{background:var(--ev-blue);}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg, #f4f3ff 0%, #eae8ff 40%, #d8d4fc 100%);
+  padding:5rem 2rem 4rem;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-60px;right:-80px;
+  width:400px;height:400px;
+  background:radial-gradient(circle, rgba(102,105,244,.18) 0%, transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.hero-inner{max-width:740px;margin:0 auto;text-align:center;position:relative;z-index:1;}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:white;border:1px solid var(--ev-lilac);
+  border-radius:99px;padding:5px 14px;font-size:12px;
+  color:var(--ev-blue);font-weight:600;margin-bottom:1.5rem;
+}
+.hero h1{font-size:46px;font-weight:700;color:var(--ev-navy);line-height:1.15;margin-bottom:1.2rem;letter-spacing:-.5px;}
+.hero h1 em{color:var(--ev-blue);font-style:normal;}
+.hero-sub{font-size:17px;color:#555;max-width:500px;margin:0 auto 2rem;line-height:1.65;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:3rem;}
+.btn-primary{background:var(--ev-blue);color:white;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-primary:hover{background:#4f52d0;}
+.btn-ghost{background:white;color:var(--ev-navy);border:1.5px solid var(--ev-lilac);border-radius:10px;padding:12px 24px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-ghost:hover{border-color:var(--ev-blue);color:var(--ev-blue);}
+.hero-mockup{max-width:660px;margin:0 auto;background:white;border-radius:16px;border:1px solid var(--ev-lilac);padding:1.25rem;box-shadow:0 20px 60px rgba(102,105,244,.15);}
+.mock-topbar{display:flex;align-items:center;gap:6px;margin-bottom:14px;}
+.mock-dot{width:10px;height:10px;border-radius:50%;}
+.mock-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.mock-title{font-size:14px;font-weight:600;color:var(--ev-navy);}
+.mock-badge{font-size:11px;background:#eae8ff;color:var(--ev-blue);padding:3px 10px;border-radius:99px;font-weight:600;}
+.mock-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.mock-card{background:var(--ev-bg);border-radius:10px;padding:12px;}
+.mock-card-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:6px;}
+.t-next{background:#eae8ff;color:var(--ev-blue);}
+.t-active{background:#e0f5ee;color:#0a6e56;}
+.t-draft{background:#fdf3dc;color:#7a4d00;}
+.mock-card-name{font-size:12px;font-weight:600;color:var(--ev-navy);margin-bottom:4px;}
+.mock-card-info{font-size:11px;color:#888;}
+.mock-bar{height:3px;background:#e5e5e5;border-radius:2px;margin-top:8px;overflow:hidden;}
+.mock-bar-fill{height:100%;border-radius:2px;}
+.mock-evita{background:linear-gradient(90deg,#eae8ff,#f4f3ff);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
+.evita-dot{width:28px;height:28px;border-radius:50%;background:var(--ev-blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;}
+.evita-text{font-size:12px;color:#444;}
+.evita-text strong{color:var(--ev-blue);}
+
+/* PROBLEM */
+.problem{padding:4rem 2rem;background:var(--ev-navy);}
+.problem-inner{max-width:760px;margin:0 auto;text-align:center;}
+.problem h2{font-size:30px;font-weight:700;color:white;margin-bottom:1rem;}
+.problem p{font-size:16px;color:var(--ev-lilac);line-height:1.7;max-width:560px;margin:0 auto 2.5rem;}
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;}
+.problem-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:1.2rem;text-align:left;}
+.problem-icon{font-size:22px;margin-bottom:10px;}
+.problem-item h4{font-size:14px;font-weight:600;color:white;margin-bottom:6px;}
+.problem-item p{font-size:12px;color:var(--ev-lilac);line-height:1.5;margin:0;}
+.arrow-down{color:var(--ev-violet);font-size:28px;margin:2rem auto 0;display:block;text-align:center;}
+
+/* HOW */
+.how{padding:4.5rem 2rem;background:var(--ev-bg);}
+.section-label{font-size:12px;font-weight:700;color:var(--ev-blue);letter-spacing:1.5px;text-transform:uppercase;text-align:center;margin-bottom:.6rem;}
+.section-title{font-size:28px;font-weight:700;color:var(--ev-navy);text-align:center;margin-bottom:.6rem;}
+.section-sub{font-size:15px;color:#666;text-align:center;max-width:480px;margin:0 auto 2.5rem;line-height:1.6;}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;max-width:780px;margin:0 auto;}
+.step{background:white;border-radius:14px;padding:1.4rem;border:1px solid var(--ev-lilac);}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--ev-blue);color:white;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.step h4{font-size:14px;font-weight:600;color:var(--ev-navy);margin-bottom:6px;}
+.step p{font-size:12px;color:#777;line-height:1.5;}
+
+/* EVITA */
+.evita-sec{padding:4rem 2rem;background:linear-gradient(135deg,var(--ev-navy) 0%,#2d3170 100%);}
+.evita-inner{max-width:720px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;}
+.evita-left h2{font-size:28px;font-weight:700;color:white;margin-bottom:.8rem;line-height:1.25;}
+.evita-left h2 span{color:var(--ev-violet);}
+.evita-left p{font-size:14px;color:var(--ev-lilac);line-height:1.7;margin-bottom:1rem;}
+.evita-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem;}
+.chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:white;font-size:12px;padding:5px 12px;border-radius:99px;}
+.evita-chat{background:white;border-radius:14px;padding:1.25rem;}
+.chat-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:12px;border-bottom:1px solid #f0f0f0;}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:var(--ev-blue);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:13px;}
+.chat-name{font-size:14px;font-weight:600;color:var(--ev-navy);}
+.chat-sub{font-size:11px;color:#888;}
+.chat-online{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:4px;}
+.msg{margin-bottom:10px;}
+.msg-bubble{display:inline-block;padding:9px 13px;border-radius:12px;font-size:12px;line-height:1.5;max-width:85%;}
+.msg-bot .msg-bubble{background:var(--ev-bg);color:var(--ev-navy);}
+.msg-user{text-align:right;}
+.msg-user .msg-bubble{background:var(--ev-blue);color:white;}
+.chat-input{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid #f0f0f0;}
+.chat-input-field{flex:1;background:var(--ev-bg);border:none;border-radius:8px;padding:8px 12px;font-size:12px;color:var(--ev-navy);font-family:inherit;outline:none;}
+.chat-send{background:var(--ev-blue);border:none;border-radius:8px;padding:8px 14px;color:white;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;}
+
+/* FEATURES */
+.features{padding:4.5rem 2rem;background:white;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;max-width:780px;margin:0 auto;}
+.feat-card{border:1px solid var(--ev-lilac);border-radius:14px;padding:1.4rem;transition:.2s;}
+.feat-card:hover{border-color:var(--ev-blue);box-shadow:0 4px 24px rgba(102,105,244,.1);}
+.feat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
+.fi-blue{background:#eae8ff;}
+.fi-green{background:#e0f5ee;}
+.fi-amber{background:#fdf3dc;}
+.fi-pink{background:#fce8f0;}
+.feat-card h3{font-size:15px;font-weight:600;color:var(--ev-navy);margin-bottom:6px;}
+.feat-card p{font-size:13px;color:#777;line-height:1.55;}
+
+/* BENCHMARKING */
+.bench{padding:4rem 2rem;background:var(--ev-bg);}
+.bench-table{max-width:720px;margin:0 auto;border-radius:14px;overflow:hidden;border:1px solid var(--ev-lilac);}
+.bench-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-bottom:1px solid var(--ev-lilac);}
+.bench-row:last-child{border-bottom:none;}
+.bench-header{background:var(--ev-navy);}
+.bench-cell{padding:12px 14px;font-size:12px;color:#555;background:white;}
+.bench-header .bench-cell{color:white;font-weight:600;background:var(--ev-navy);}
+.bench-cell:first-child{color:var(--ev-navy);font-weight:500;}
+.ev-col-h{background:var(--ev-blue)!important;color:white!important;font-weight:700!important;}
+.ev-col-body{background:#eae8ff!important;color:var(--ev-blue)!important;font-weight:700!important;}
+
+/* PRICING */
+.pricing{padding:4.5rem 2rem;background:white;}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:740px;margin:0 auto;}
+.price-card{border:1.5px solid var(--ev-lilac);border-radius:16px;padding:1.6rem;position:relative;}
+.price-card.featured{border-color:var(--ev-blue);box-shadow:0 0 0 3px rgba(102,105,244,.12);}
+.feat-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--ev-blue);color:white;font-size:11px;font-weight:700;padding:4px 14px;border-radius:99px;white-space:nowrap;}
+.plan-label{font-size:12px;color:#888;font-weight:600;margin-bottom:4px;}
+.plan-price-big{font-size:30px;font-weight:700;color:var(--ev-navy);}
+.plan-price-big sup{font-size:15px;vertical-align:top;margin-top:7px;display:inline-block;}
+.plan-price-big sub{font-size:12px;color:#999;font-weight:400;}
+.plan-desc{font-size:12px;color:#888;margin:8px 0 16px;line-height:1.5;}
+.plan-ul{list-style:none;margin-bottom:1.5rem;}
+.plan-ul li{font-size:12px;color:#666;padding:5px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.plan-ul li::before{content:'✓';color:var(--ev-blue);font-weight:700;flex-shrink:0;}
+.btn-plan-outline{width:100%;background:transparent;border:1.5px solid var(--ev-lilac);border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:var(--ev-navy);cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-plan-outline:hover{border-color:var(--ev-blue);color:var(--ev-blue);}
+.btn-plan-fill{width:100%;background:var(--ev-blue);border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;color:white;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-plan-fill:hover{background:#4f52d0;}
+
+/* TESTIMONIALS */
+.testi{padding:4.5rem 2rem;background:var(--ev-bg);}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:780px;margin:0 auto;}
+.testi-card{background:white;border-radius:14px;padding:1.4rem;border:1px solid var(--ev-lilac);}
+.testi-stars{color:#f59e0b;font-size:13px;margin-bottom:10px;}
+.testi-quote{font-size:13px;color:#555;line-height:1.6;margin-bottom:1rem;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:10px;}
+.t-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;}
+.t-name{font-size:13px;font-weight:600;color:var(--ev-navy);}
+.t-role{font-size:11px;color:#999;}
+
+/* RISK */
+.risk{padding:4rem 2rem;background:var(--ev-navy);}
+.risk-inner{max-width:720px;margin:0 auto;}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:2.5rem;}
+.risk-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.4rem;}
+.risk-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.risk-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.risk-card h4{font-size:14px;font-weight:600;color:white;}
+.risk-card p{font-size:12px;color:var(--ev-lilac);line-height:1.55;margin-bottom:12px;}
+.risk-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:99px;font-weight:600;}
+.risk-high{background:rgba(226,75,74,.15);color:#ff8a88;}
+.risk-low{background:rgba(34,197,94,.15);color:#6ee7b7;}
+
+/* CTA */
+.cta{padding:5rem 2rem;background:linear-gradient(135deg, var(--ev-blue) 0%, #4547c2 100%);text-align:center;}
+.cta h2{font-size:34px;font-weight:700;color:white;margin-bottom:.8rem;}
+.cta p{font-size:16px;color:rgba(255,255,255,.8);margin-bottom:2rem;line-height:1.6;}
+.btn-cta-white{background:white;color:var(--ev-blue);border:none;border-radius:12px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;}
+.btn-cta-white:hover{background:var(--ev-bg);}
+.cta-note{font-size:12px;color:rgba(255,255,255,.6);margin-top:.8rem;}
+
+/* FOOTER */
+.footer{padding:2rem;background:var(--ev-navy);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(255,255,255,.08);}
+.footer-logo{font-size:16px;font-weight:700;color:white;}
+.footer-logo span{color:var(--ev-violet);}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{font-size:12px;color:rgba(255,255,255,.5);cursor:pointer;text-decoration:none;}
+.footer p{font-size:11px;color:rgba(255,255,255,.35);}
+
+@media(max-width:600px){
+  .hero h1{font-size:30px;}
+  .evita-inner{grid-template-columns:1fr;}
+  .risk-grid{grid-template-columns:1fr;}
+  .mock-cards{grid-template-columns:1fr;}
+  .nav-links a{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="logo-wrap">
+    <div class="logo-sym">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="5" cy="9" r="2.5" fill="white" opacity=".9"/>
+        <circle cx="13" cy="5" r="2" fill="white" opacity=".6"/>
+        <circle cx="13" cy="13" r="2" fill="white" opacity=".6"/>
+        <line x1="7.2" y1="7.8" x2="11.2" y2="5.8" stroke="white" stroke-width="1.2" opacity=".7"/>
+        <line x1="7.2" y1="10.2" x2="11.2" y2="12.2" stroke="white" stroke-width="1.2" opacity=".7"/>
+      </svg>
+    </div>
+    <span class="logo-text">_event<span>if</span>y</span>
+  </div>
+  <div class="nav-links">
+    <a href="#funciones">Funciones</a>
+    <a href="#precios">Precios</a>
+    <a href="#evita">Evita IA</a>
+    <a href="#nosotras">Nosotras</a>
+    <button class="btn-nav">Comenzar gratis</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-pill">✦ Plataforma #1 de eventos para organizadores reales</div>
+    <h1>Organizá tu evento en un<br><em>solo lugar, sin estrés.</em></h1>
+    <p class="hero-sub">Eventify centraliza invitados, presupuesto, proveedores y cronogramas — y suma una IA que te guía en cada decisión. Pensada para personas como vos, no para grandes corporaciones.</p>
+    <div class="hero-btns">
+      <button class="btn-primary">Crear mi evento gratis →</button>
+      <button class="btn-ghost">Ver cómo funciona</button>
+    </div>
+    <div class="hero-mockup">
+      <div class="mock-topbar">
+        <div class="mock-dot" style="background:#e24b4a"></div>
+        <div class="mock-dot" style="background:#f59e0b"></div>
+        <div class="mock-dot" style="background:#22c55e"></div>
+      </div>
+      <div class="mock-header">
+        <span class="mock-title">Mis eventos · Noviembre 2025</span>
+        <span class="mock-badge">3 activos</span>
+      </div>
+      <div class="mock-cards">
+        <div class="mock-card">
+          <div class="mock-card-tag t-next">Próximo</div>
+          <div class="mock-card-name">Cumpleaños de Laura</div>
+          <div class="mock-card-info">45 invitados · 28 nov</div>
+          <div class="mock-bar"><div class="mock-bar-fill" style="width:70%;background:#6669f4;"></div></div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-tag t-active">Activo</div>
+          <div class="mock-card-name">Lanzamiento de marca</div>
+          <div class="mock-card-info">120 invitados · 5 dic</div>
+          <div class="mock-bar"><div class="mock-bar-fill" style="width:45%;background:#22c55e;"></div></div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-tag t-draft">Borrador</div>
+          <div class="mock-card-name">Workshop de diseño</div>
+          <div class="mock-card-info">20 cupos · 15 dic</div>
+          <div class="mock-bar"><div class="mock-bar-fill" style="width:20%;background:#f59e0b;"></div></div>
+        </div>
+      </div>
+      <div class="mock-evita">
+        <div class="evita-dot">E</div>
+        <div class="evita-text"><strong>Evita IA:</strong> Te conviene reservar el catering esta semana para evitar el aumento de precios. ¿Querés que compare opciones?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="problem-inner">
+    <h2>La organización de eventos está rota.</h2>
+    <p>Hoy planificar un evento significa abrir 6 apps al mismo tiempo, perder información, y llegar al día del evento agotada. Esto no debería ser así.</p>
+    <div class="problem-grid">
+      <div class="problem-item">
+        <div class="problem-icon">📱</div>
+        <h4>Herramientas dispersas</h4>
+        <p>WhatsApp, notas, planillas, Instagram... sin ninguna conexión entre sí.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">😰</div>
+        <h4>Estrés constante</h4>
+        <p>Miedo a olvidar algo importante, proveedores que no confirman, presupuesto que se pierde.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">⏰</div>
+        <h4>Pérdida de tiempo</h4>
+        <p>Horas buscando proveedores, comparando precios y coordinando confirmaciones manualmente.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">📊</div>
+        <h4>Sin visibilidad</h4>
+        <p>No sabés cuánto gastaste, cuántos confirmaron ni qué falta resolver.</p>
+      </div>
+    </div>
+    <div class="arrow-down">↓</div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="funciones">
+  <p class="section-label">Flujo de servicio</p>
+  <h2 class="section-title">Así funciona Eventify</h2>
+  <p class="section-sub">Once pasos, un solo lugar. Desde el registro hasta la evaluación post-evento.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Registrarte</h4>
+      <p>Creás tu cuenta y definís el perfil de tu evento en minutos.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Tipo de evento</h4>
+      <p>Social, corporativo o híbrido. Eventify se adapta a vos.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Fecha y detalles</h4>
+      <p>Definís fecha, invitados y presupuesto disponible.</p>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:#aa9df8;">04</div>
+      <h4>IA genera tu plan</h4>
+      <p>Evita organiza automáticamente tu cronograma y prioridades.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">05</div>
+      <h4>Encontrás proveedores</h4>
+      <p>Comparás catering, DJ, sedes, fotografía y más en un lugar.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">06</div>
+      <h4>Contratás fácil</h4>
+      <p>Seleccionás y confirmás directamente desde la plataforma.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">07</div>
+      <h4>Gestión de invitados</h4>
+      <p>RSVP, check-in y seguimiento de confirmaciones en tiempo real.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">08</div>
+      <h4>Seguimiento</h4>
+      <p>Visualizás y controlás las tareas y actividades del evento.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">09</div>
+      <h4>El evento</h4>
+      <p>Todo organizado, bajo control. Disfrutás el momento.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">10</div>
+      <h4>Evaluación</h4>
+      <p>Calificás los proveedores contratados y dejás tu opinión.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">11</div>
+      <h4>Fidelización</h4>
+      <p>Encuesta de satisfacción y tu historial queda guardado para el próximo evento.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVITA IA -->
+<section class="evita-sec" id="evita">
+  <div class="evita-inner">
+    <div class="evita-left">
+      <h2>Conocé a <span>Evita,</span><br>tu aliada organizadora.</h2>
+      <p>Evita es la asistente virtual de Eventify. Cercana, práctica y siempre disponible. Puede ayudarte a ordenar tareas, recordar pendientes, sugerir proveedores según tu presupuesto y responder dudas en tiempo real.</p>
+      <p style="font-size:13px;">Podés elegir si preferís que Evita tenga perfil femenino o masculino. Siempre con un tono claro, amable y empático.</p>
+      <div class="evita-chips">
+        <span class="chip">Sugiere proveedores</span>
+        <span class="chip">Optimiza presupuesto</span>
+        <span class="chip">Recordatorios automáticos</span>
+        <span class="chip">Listas inteligentes</span>
+      </div>
+    </div>
+    <div class="evita-chat">
+      <div class="chat-header">
+        <div class="chat-avatar">E</div>
+        <div>
+          <div class="chat-name">Evita · Asistente virtual</div>
+          <div class="chat-sub"><span class="chat-online"></span>En línea ahora</div>
+        </div>
+      </div>
+      <div class="msg msg-bot">
+        <div class="msg-bubble">¡Hola! Soy Evita. ¿Querés que organicemos tu evento paso a paso? 🎉</div>
+      </div>
+      <div class="msg msg-user">
+        <div class="msg-bubble">Sí, necesito ayuda con proveedores y presupuesto.</div>
+      </div>
+      <div class="msg msg-bot">
+        <div class="msg-bubble">Perfecto. Primero te ordeno las prioridades y después te muestro opciones según tu presupuesto disponible.</div>
+      </div>
+      <div class="msg msg-bot">
+        <div class="msg-bubble">¿Preferís perfil <strong>femenino</strong> o <strong>masculino</strong> para tu asistente?</div>
+      </div>
+      <div class="chat-input">
+        <input class="chat-input-field" placeholder="Escribí tu consulta..."/>
+        <button class="chat-send">Enviar →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <p class="section-label">Todo en uno</p>
+  <h2 class="section-title">Funciones que transforman la experiencia</h2>
+  <p class="section-sub">No es solo una app de organización. Es un ecosistema pensado para que cada momento cuente.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon fi-blue">📅</div>
+      <h3>Gestión integral</h3>
+      <p>Cronograma, invitados, presupuesto y tareas centralizadas en un solo panel intuitivo.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon fi-green">👥</div>
+      <h3>Red de proveedores</h3>
+      <p>Catering, DJ, fotografía, sedes y decoración. Compará, leé reseñas y contratá sin salir de la app.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon fi-amber">📊</div>
+      <h3>Análisis en tiempo real</h3>
+      <p>Métricas de confirmación, gasto ejecutado vs. presupuestado y estado del evento al instante.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon fi-pink">✉️</div>
+      <h3>Invitaciones digitales</h3>
+      <p>Diseños personalizables, RSVP automático, check-in y seguimiento de apertura incluidos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARKING -->
+<section class="bench">
+  <p class="section-label">Benchmarking</p>
+  <h2 class="section-title">Por qué elegir Eventify</h2>
+  <p class="section-sub">Ni demasiado corporativo, ni demasiado básico. Eventify ocupa el espacio que las otras plataformas dejaron vacío.</p>
+  <div class="bench-table">
+    <div class="bench-row bench-header">
+      <div class="bench-cell">Atributo</div>
+      <div class="bench-cell ev-col-h">Eventify</div>
+      <div class="bench-cell">WeddingWire</div>
+      <div class="bench-cell">Cvent</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-cell">Usuarios individuales y pymes</div>
+      <div class="bench-cell ev-col-body">✓ Sí</div>
+      <div class="bench-cell">Parcial</div>
+      <div class="bench-cell" style="color:#e24b4a;">✗ No</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-cell">Inteligencia Artificial integrada</div>
+      <div class="bench-cell ev-col-body">✓ Sí</div>
+      <div class="bench-cell" style="color:#e24b4a;">✗ No</div>
+      <div class="bench-cell">Parcial</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-cell">Todo tipo de eventos</div>
+      <div class="bench-cell ev-col-body">✓ Sí</div>
+      <div class="bench-cell" style="color:#e24b4a;">✗ Solo bodas</div>
+      <div class="bench-cell">Solo corporativo</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-cell">Experiencia simple e intuitiva</div>
+      <div class="bench-cell ev-col-body">✓ Sí</div>
+      <div class="bench-cell">Media</div>
+      <div class="bench-cell" style="color:#e24b4a;">✗ Compleja</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-cell">Plan gratuito disponible</div>
+      <div class="bench-cell ev-col-body">✓ Sí</div>
+      <div class="bench-cell">Limitado</div>
+      <div class="bench-cell" style="color:#e24b4a;">✗ No</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="precios">
+  <p class="section-label">Planes</p>
+  <h2 class="section-title">Empezá gratis. Escalá cuando crezcas.</h2>
+  <p class="section-sub">Tres planes pensados para distintos momentos de tu crecimiento como organizador.</p>
+  <div class="price-grid">
+    <div class="price-card">
+      <p class="plan-label">Plan Low</p>
+      <p class="plan-price-big"><sup>$</sup>3.000<sub>/mes</sub></p>
+      <p class="plan-desc">Para quienes están empezando a organizar eventos de manera personal.</p>
+      <ul class="plan-ul">
+        <li>Hasta 60 suscriptores</li>
+        <li>Gestión básica de invitados</li>
+        <li>Soporte al cliente incluido</li>
+        <li>Acceso a red de proveedores</li>
+        <li>Evita IA (funciones básicas)</li>
+      </ul>
+      <button class="btn-plan-outline">Elegir Plan Low</button>
+    </div>
+    <div class="price-card featured">
+      <div class="feat-badge">Más popular</div>
+      <p class="plan-label">Plan Premium</p>
+      <p class="plan-price-big"><sup>$</sup>10.000<sub>/mes</sub></p>
+      <p class="plan-desc">Para emprendedores y organizadores independientes que hacen crecer su negocio.</p>
+      <ul class="plan-ul">
+        <li>Hasta 30 eventos simultáneos</li>
+        <li>500 invitados por evento</li>
+        <li>Asistencia personalizada IA</li>
+        <li>Comisión de proveedores reducida</li>
+        <li>Análisis y métricas avanzadas</li>
+        <li>Soporte prioritario</li>
+      </ul>
+      <button class="btn-plan-fill">Elegir Premium →</button>
+    </div>
+    <div class="price-card">
+      <p class="plan-label">Plan Pro Event</p>
+      <p class="plan-price-big"><sup>$</sup>30.000<sub>/mes</sub></p>
+      <p class="plan-desc">Para empresas y organizadores profesionales con eventos de gran escala.</p>
+      <ul class="plan-ul">
+        <li>Hasta 10 eventos activos</li>
+        <li>Red de proveedores premium</li>
+        <li>Asistencia personalizada completa</li>
+        <li>Integraciones y API disponibles</li>
+        <li>SLA garantizado</li>
+        <li>Ejecutivo de cuenta dedicado</li>
+      </ul>
+      <button class="btn-plan-outline">Contactar ventas</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi">
+  <p class="section-label">Testimonios</p>
+  <h2 class="section-title">Personas que organizaron mejor con Eventify</h2>
+  <p class="section-sub">Organizadores reales. Eventos reales. Resultados que hablan solos.</p>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Antes tenía todo separado entre WhatsApp, notas y planillas. Con Eventify pude ordenar el presupuesto y los proveedores en un solo lugar."</p>
+      <div class="testi-author">
+        <div class="t-avatar" style="background:#6669f4;">ML</div>
+        <div><div class="t-name">Martina López</div><div class="t-role">Organizó un cumpleaños de 30</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Me ayudó a comparar opciones sin perder horas buscando. La parte de IA me sirvió para saber qué tareas resolver primero."</p>
+      <div class="testi-author">
+        <div class="t-avatar" style="background:#22c55e;">SR</div>
+        <div><div class="t-name">Sofía Ramírez</div><div class="t-role">Emprendedora gastronómica</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Lo que más me gustó fue que no parece una herramienta corporativa difícil. Es clara, visual y fácil de usar desde el primer día."</p>
+      <div class="testi-author">
+        <div class="t-avatar" style="background:#aa9df8;">LF</div>
+        <div><div class="t-name">Lucas Fernández</div><div class="t-role">Organizador independiente</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISK -->
+<section class="risk">
+  <div class="risk-inner">
+    <p class="section-label" style="color:#aa9df8;">Transparencia</p>
+    <h2 class="section-title" style="color:white;">Sabemos los riesgos. Tenemos plan B.</h2>
+    <p class="section-sub" style="color:#c6c6e8;">Parte de construir algo sólido es anticiparse. Compartimos con honestidad nuestras contingencias y cómo las manejamos.</p>
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="risk-header">
+          <div class="risk-dot" style="background:#ff8a88;"></div>
+          <h4>Fallas técnicas de la plataforma</h4>
+        </div>
+        <p>Probabilidad media, impacto alto. Las caídas del sistema pueden afectar la confianza del usuario en momentos críticos de organización.</p>
+        <span class="risk-pill risk-high">Riesgo mayor · Plan B activo</span>
+        <p style="margin-top:10px;font-size:11px;color:#c6c6e8;">Plan B: backups automáticos diarios, servidores de respaldo en nube y equipo técnico de guardia 24/7.</p>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header">
+          <div class="risk-dot" style="background:#6ee7b7;"></div>
+          <h4>Menor captación de usuarios inicial</h4>
+        </div>
+        <p>Probabilidad alta, impacto bajo/medio. Es normal en emprendimientos nuevos que compiten con plataformas ya posicionadas.</p>
+        <span class="risk-pill risk-low">Riesgo mínimo · Plan B listo</span>
+        <p style="margin-top:10px;font-size:11px;color:#c6c6e8;">Plan B: campañas segmentadas en IG/TikTok, programa de referidos y alianzas con organizadores del sector.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta">
+  <h2>Tu evento, sin complicaciones.</h2>
+  <p>Gratis para siempre en el plan básico. Sin tarjeta de crédito.<br>Creá tu cuenta y empezá a organizar mejor hoy.</p>
+  <button class="btn-cta-white">Crear mi evento gratis →</button>
+  <div class="cta-note">✓ Sin permanencia &nbsp;·&nbsp; ✓ Podés cancelar cuando quieras &nbsp;·&nbsp; ✓ Soporte incluido</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="nosotras">
+  <div class="footer-logo">_event<span>if</span>y &nbsp;<span style="color:rgba(255,255,255,.3);font-weight:400;font-size:12px;">Tu evento, sin complicaciones.</span></div>
+  <div class="footer-links">
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+    <a href="#">Soporte</a>
+    <a href="#">Blog</a>
+  </div>
+  <p>© 2025 Eventify · Jazmin Buceta &amp; Rocío Melgarejo · Universidad de Palermo</p>
+</footer>
+
+</body>
+</html>
